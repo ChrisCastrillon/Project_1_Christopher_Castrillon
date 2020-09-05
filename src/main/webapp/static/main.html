@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>ERS Home</title>
+    </head>
+    <body>
+        <div class="jumbotron text-center" style="background-color: #ffce2b; border-bottom: 5px solid #f2f2f2;" >
+            <h1 style="color: white; font-size: 45px;">Employee Reimbursement Page</h1>
+        </div>
+
+        <div class="section-1-container">
+            <div class="container">
+               <div class="row">
+                  <div class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-center align-items-center">
+                      <p>Fill out the form below to submit a reimbursement application</p>
+
+                  </div> 
+               </div>
+                <div class="row">
+                    <div class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-center align-items-center">
+                        <div class="div-to-align">
+                            <form class="form-vertical" role="form">
+                                <div class="checkbox">
+                                    <p>Enter the Reimbursement type:</p>
+                                    <label>
+                                        <input type="checkbox" value="">Lodging
+                                        <input type="checkbox" value="">Travel
+                                        <input type="checkbox" value="">Food
+                                        <input type="checkbox" value="">Other
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                                    
+                                    <label class="sr-only" for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+
+                                    <label class="sr-only" for="userID">EID#</label>
+                                    <input type="text" class="form-control" id="userID" placeholder="EID#">
+
+                                    <label class="sr-only" for="email">E-mail</label>
+                                    <input type="email" class="form-control" id="email" placeholder="E-mail">
+                      
+    								<label for="uploadReceipt">Upload</label>
+    								<input type="file" class="form-control-file" id="exampleFormControlFile1">
+    								<button type="submit" class="btn btn-default">Submit</button>
+									
+									<button type="submit" class="btn btn-default" onClick="logout()">Logout</button>
+                                </div>
+                                
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+        	function logout() {
+        		console.log("The third function");
+        		window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
+        	}
+        </script>
+    </body>
+</html>

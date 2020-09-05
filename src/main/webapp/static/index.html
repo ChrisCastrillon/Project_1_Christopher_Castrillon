@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<title>First Page</title>
+</head>
+<body>
+	<div class="jumbotron text-center"
+		style="background-color: #ffce2b; border-bottom: 5px solid #f2f2f2;">
+		<h1 style="color: white; font-size: 45px;">Employee Reimbursement
+			System</h1>
+	</div>
+
+	<div class="section-1-container">
+		<div class="container">
+			<div class="row">
+				<div class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-centeralign-items-center">
+					<p>Login to enter either the user portal or the financial
+						manager.</p>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div
+					class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-center align-items-center">
+					<div class="div-to-align">
+						<form class="form-vertical" role="form">
+							<div class="form-group">
+								<label class="sr-only" for="username">username</label> <input
+									type="text" class="form-control" id="username"
+									placeholder="Username">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="password">password</label> <input
+									type="text" class="form-control" id="password"
+									placeholder="Password">
+							</div>
+							<button type="submit" class="btn btn-default"
+								onClick="secondPage()">Login</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+	function secondPage() {
+		console.log("the second page function");
+		window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/main");
+	}
+</script>
+</body>
+
+</html>
