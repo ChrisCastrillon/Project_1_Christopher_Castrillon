@@ -29,19 +29,18 @@
 				<div
 					class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-center align-items-center">
 					<div class="div-to-align">
-						<form class="form-vertical" role="form">
+						<form class="form-vertical" role="form" action="GET">
 							<div class="form-group">
 								<label class="sr-only" for="username">username</label> <input
-									type="text" class="form-control" id="username"
-									placeholder="Username">
+									type="text" class="form-control" name="username" id="username"
+									placeholder="Username" >
 							</div>
 							<div class="form-group">
 								<label class="sr-only" for="password">password</label> <input
-									type="text" class="form-control" id="password"
+									type="password" class="form-control" name="password" id="password"
 									placeholder="Password">
 							</div>
-							<button type="submit" class="btn btn-default"
-								onClick="secondPage()">Login</button>
+							<button type="submit" class="button" onClick="sendLogin()">Login</button>
 						</form>
 					</div>
 				</div>
@@ -49,10 +48,18 @@
 		</div>
 	</div>
 	<script>
-	function secondPage() {
-		console.log("the second page function");
-		window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/main");
+	async function sendLogin() {
+		try{
+		let usernameInput = document.getElementById("username");
+		let passwordInput = document.getElementById("password");
+		
+		let response = await fetch("http://localhost:8080/Project_1_Christopher_Castrillon/login?" + "username" + usernameInput.value + "&password=" + passwordInput.value);
+		
+		window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/profile");
+		}
 	}
+	// <!-- function secondPage() { console.log("the second page function"); window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/Submissions"); -->
+  
 </script>
 </body>
 

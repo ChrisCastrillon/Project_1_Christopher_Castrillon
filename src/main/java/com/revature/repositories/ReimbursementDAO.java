@@ -1,0 +1,136 @@
+package com.revature.repositories;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revature.models.Reimbursement;
+import com.revature.utils.ConnectionUtil;
+
+public class ReimbursementDAO implements IReimbursementDAO {
+	//this will be used to populate the reimusements list
+	@Override
+	public List<Reimbursement> findAll() {
+		List<Reimbursement> allReimbursements = new ArrayList<>();
+
+		// get a connection to the database
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM project1.ers_reimbursement";
+			ResultSet rs = stmt.executeQuery(sql);
+			// iterate through the set of users
+			while (rs.next()) {
+				int reimb_id = rs.getInt("reimb_id");
+				double reimb_amount = rs.getDouble("reimb_amount");
+				Timestamp time_submitted = rs.getTimestamp("reimb_submitted");
+				Timestamp time_resolved = rs.getTimestamp("reimb_resolved");
+				String reimb_description = rs.getString("reimb_description");
+				byte[] reimb_receipt = rs.getBytes("reimb_receipt");
+				int reimb_author = rs.getInt("reimb_author");
+				int reimb_resolver = rs.getInt("reimb_resolver");
+				int reimb_status = rs.getInt("reimb_status");
+				int reimb_type = rs.getInt("reimb_type_id");
+				Reimbursement r = new Reimbursement(reimb_id, reimb_amount, time_submitted, time_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status, reimb_type);
+				// add the user to the list of users
+				allReimbursements.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("WE FAILED TO RETRIEVE ALL REIMBURSEMENTS");
+			// if it returns null then you should try again.
+			return null;
+		}
+		return allReimbursements;
+	}
+	
+	@Override
+	public List<Reimbursement> findAllByEID(int id) {
+		List<Reimbursement> allReimbursements = new ArrayList<>();
+
+		// get a connection to the database
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM project1.ers_reimbursement WHERE reimb_author = " + id;
+			ResultSet rs = stmt.executeQuery(sql);
+			// iterate through the set of users
+			while (rs.next()) {
+				int reimb_id = rs.getInt("reimb_id");
+				double reimb_amount = rs.getDouble("reimb_amount");
+				Timestamp time_submitted = rs.getTimestamp("reimb_submitted");
+				Timestamp time_resolved = rs.getTimestamp("reimb_resolved");
+				String reimb_description = rs.getString("reimb_description");
+				byte[] reimb_receipt = rs.getBytes("reimb_receipt");
+				int reimb_author = rs.getInt("reimb_author");
+				int reimb_resolver = rs.getInt("reimb_resolver");
+				int reimb_status = rs.getInt("reimb_status");
+				int reimb_type = rs.getInt("reimb_type_id");
+				Reimbursement r = new Reimbursement(reimb_id, reimb_amount, time_submitted, time_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status, reimb_type);
+				// add the uer to the list of users
+				allReimbursements.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("WE FAILED TO RETRIEVE ALL REIMBURSEMENTS");
+			// if it returns null then you should try again.
+			return null;
+		}
+		return allReimbursements;
+	}
+
+	@Override
+	public Reimbursement findById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reimbursement findByEID(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reimbursement delete(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reimbursement update(Reimbursement reimbursement) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reimbursement insert(Reimbursement reimbursement) {
+		//return a reimbursment object that you can use to populate the submission page
+		int count = 0;
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			String sql = "INSERT INTO project1.ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status, reimb_type_id)" +
+		" VALUES (?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, reimbursement.getReimbId());
+			stmt.setDouble(2, reimbursement.getReimbAmount());
+			stmt.setTimestamp(3,reimbursement.getSubmitTimeStamp());
+			stmt.setTimestamp(4, reimbursement.getResolveTimeStamp());
+			stmt.setString(5, reimbursement.getDescription());
+			stmt.setBytes(6, reimbursement.getReceipt());
+			stmt.setInt(7, reimbursement.getAuthor());
+			stmt.setInt(8, reimbursement.getResolver());
+			stmt.setInt(9, reimbursement.getStatusId());
+			stmt.setInt(10, reimbursement.getType());
+			count = stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println("FAILED TO INSERT THE REIMBURSEMENT");
+		}
+		return reimbursement;
+	}
+
+
+}

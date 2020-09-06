@@ -7,6 +7,10 @@ public class Role {
 	public Role() {
 		super();
 	}
+	public Role(int id) {
+		this.id = id;
+		setName(id);
+	}
 	public Role(int id, String name) {
 		this.id = id;
 		this.name = name;
@@ -22,6 +26,14 @@ public class Role {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public void setName(int id) {
+		if (id == 1) {
+			this.name = "finance manager";
+		}
+		else {
+			this.name = "employee";
+		}
 	}
 	@Override
 	public String toString() {
