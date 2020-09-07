@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.services.EmployeeService;
 
 /**
  * Servlet implementation class LoginServlet
@@ -17,12 +18,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LoginServlet extends HttpServlet {
 	private static ObjectMapper om = new ObjectMapper();
+	private static EmployeeService es = new EmployeeService();
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		System.out.println("username is: " + username);
+		System.out.println("username is: " + username + " " + username.length());
 		System.out.println("password is: " + password);
 //		request.getRequestDispatcher("/static/Submissions.html").forward(request, response);
 		

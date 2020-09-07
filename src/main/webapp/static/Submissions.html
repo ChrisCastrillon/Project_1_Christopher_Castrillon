@@ -45,8 +45,8 @@
                                     <input type="email" class="form-control" id="email" placeholder="E-mail">
                       
     								<label for="uploadReceipt">Upload</label>
-    								<input type="file" class="form-control-file" id="exampleFormControlFile1">
-    								<button type="submit" class="btn btn-default">Submit</button>
+    								<input type="file" class="form-control-file" id="receipt">
+    								<button type="submit" class="btn btn-default" onClick="submit()">Submit</button>
 									
 									<button type="submit" class="btn btn-default" onClick="logout()">Logout</button>
                                 </div>
@@ -58,12 +58,62 @@
             </div>
         </div>
         <script>
-            //you are retrieving information from the session
-        	function logout() {
+	        async function submit() {
+	
+				let firstNameInput = document.getElementById("firstName");
+				let lastNameInput = document.getElementById("lastName");
+                let eidInput = document.getElementById("userID");
+                let emailInput = document.getElementById("email");
+                let receiptInput = document.getElementById("receipt");
+	
+				//send a request to the server to log int
+				try {
+					let response = await
+					fetch("http://localhost:8080/Project_1_Christopher_Castrillon/login?"
+							+ "username="
+							+ usernameInput.value
+							+ "&password="
+							+ passwordInput.value);
+					//the response is just a string
+					let data = await
+					response.json();
+	
+					//or window.location.href = "htp://localhost:8080/Project_1_Christopher_Castrillon/Submissions""
+					sessionStorage.setItem("currentUser", response);
+					window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/Submissions");
+				} catch (error) {
+					//failed to login
+					console.log(error);
+					alert("Failed to log in");
+				}
+			}
+	        	
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            function logout() {
         		console.log("The third function");
         		window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
         	}
-           //if the person is not logged in then it should immediately log out
+          
             let currentUser = sessionStorage.getItem("currentUser");
             if (!currentUser) {
                 // logout();

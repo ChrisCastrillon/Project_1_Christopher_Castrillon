@@ -34,7 +34,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 				Role role = new Role(roleId);
 				
 				Employee e = new Employee(id, username, password, firstName, lastName, role, email);
-				// add the uer to the list of users
+				// add the user to the list of users
 				allEmployees.add(e);
 			}
 		} catch (SQLException e) {
@@ -43,13 +43,30 @@ public class EmployeeDAO implements IEmployeeDAO {
 			// if it returns null then you should try again.
 			return null;
 		}
+		
 		return allEmployees;
 	}
 
 	@Override
-	public Employee findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] findByUsername(String username) {
+		String[] credentials = new String[2];
+		credentials[0] = username;
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT ers_password FROM project1.ers_users WHERE ers_username = " + "\'"+ username + "\'";
+			ResultSet rs = stmt.executeQuery(sql);
+			//iterate through the set of users
+			while(rs.next()) {
+				credentials[1] = rs.getString("ers_password");
+			}
+			System.out.println("credentials" + credentials[0] + ' ' + credentials[1]);
+			return credentials;
+		}catch(SQLException e) {
+			System.out.println("WE FAILED TO RETRIEVE USER");
+			//if it returns null then you should try again.
+			return null;
+		}
+		
 	}
 
 	@Override
