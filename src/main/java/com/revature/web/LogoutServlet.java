@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class LogoutServlet
  */
-@WebServlet(urlPatterns= {"/logout/*"})
+@WebServlet(urlPatterns= {"/logout"})
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,8 @@ public class LogoutServlet extends HttpServlet {
 		if (session != null) {
 			session.invalidate();
 		}
-		request.getRequestDispatcher("static/index.html").forward(request, response);
+		System.out.println("Did this execute?");
+//		request.getRequestDispatcher("static/index.html").forward(request, response);
 	}
 
 	/**

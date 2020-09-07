@@ -12,7 +12,4 @@ public interface IReimbursementDAO {
 	public Reimbursement findByEID(int id);
 	public Reimbursement delete(int id);
 	public Reimbursement update(Reimbursement reimbursement);
-	
-	
-
 }

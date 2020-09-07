@@ -7,7 +7,7 @@
     </head>
     <body>
         <div class="jumbotron text-center" style="background-color: #ffce2b; border-bottom: 5px solid #f2f2f2;" >
-            <h1 style="color: white; font-size: 45px;">Employee Reimbursement Page</h1>
+            <h1 id = "welcome" style="color: white; font-size: 45px;">Employee Reimbursement Page</h1>
         </div>
 
         <div class="section-1-container">
@@ -58,10 +58,19 @@
             </div>
         </div>
         <script>
+            //you are retrieving information from the session
         	function logout() {
         		console.log("The third function");
         		window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
         	}
+           //if the person is not logged in then it should immediately log out
+            let currentUser = sessionStorage.getItem("currentUser");
+            if (!currentUser) {
+                // logout();
+            }
+            let welcome = document.getElementById("welcome");
+            welcome.innerHTML += " " + currentUser;
+
         </script>
     </body>
 </html>
