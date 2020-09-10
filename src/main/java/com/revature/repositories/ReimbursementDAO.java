@@ -33,7 +33,7 @@ public class ReimbursementDAO implements IReimbursementDAO {
 				byte[] reimb_receipt = rs.getBytes("reimb_receipt");
 				int reimb_author = rs.getInt("reimb_author");
 				int reimb_resolver = rs.getInt("reimb_resolver");
-				int reimb_status = rs.getInt("reimb_status");
+				int reimb_status = rs.getInt("reimb_status_id");
 				int reimb_type = rs.getInt("reimb_type_id");
 				Reimbursement r = new Reimbursement(reimb_id, reimb_amount, time_submitted, time_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status, reimb_type);
 				// add the user to the list of users
@@ -67,7 +67,7 @@ public class ReimbursementDAO implements IReimbursementDAO {
 				byte[] reimb_receipt = rs.getBytes("reimb_receipt");
 				int reimb_author = rs.getInt("reimb_author");
 				int reimb_resolver = rs.getInt("reimb_resolver");
-				int reimb_status = rs.getInt("reimb_status");
+				int reimb_status = rs.getInt("reimb_status_id");
 				int reimb_type = rs.getInt("reimb_type_id");
 				Reimbursement r = new Reimbursement(reimb_id, reimb_amount, time_submitted, time_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status, reimb_type);
 				// add the uer to the list of users
@@ -111,7 +111,7 @@ public class ReimbursementDAO implements IReimbursementDAO {
 		//return a reimbursment object that you can use to populate the submission page
 		int count = 0;
 		try (Connection conn = ConnectionUtil.getConnection()) {
-			String sql = "INSERT INTO project1.ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status, reimb_type_id)" +
+			String sql = "INSERT INTO project1.ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)" +
 		" VALUES (?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, reimbursement.getReimbId());

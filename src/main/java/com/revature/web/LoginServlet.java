@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.services.EmployeeService;
 
@@ -19,7 +21,7 @@ import com.revature.services.EmployeeService;
 public class LoginServlet extends HttpServlet {
 	private static ObjectMapper om = new ObjectMapper();
 	private static EmployeeService es = new EmployeeService();
-       
+    private static Logger log = Logger.getLogger(LoginServlet.class);
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String username = request.getParameter("username");
@@ -27,7 +29,13 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("username is: " + username + " " + username.length());
 		System.out.println("password is: " + password);
 //		request.getRequestDispatcher("/static/Submissions.html").forward(request, response);
-		
+		try {
+			log.info("The login servlet is attempting to connnect to the database");
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (username == null || password == null || username.equals("") || password.equals("")) {
 			response.setStatus(400);
 			return;
@@ -35,6 +43,7 @@ public class LoginServlet extends HttpServlet {
 		if (username.equals(password)) {
 			HttpSession session = request.getSession();
 			session.setAttribute("currentUser", username);
+			log.info("A sesssion has been set for user " + username);
 			response.setStatus(200);
 			
 			PrintWriter writer = response.getWriter();

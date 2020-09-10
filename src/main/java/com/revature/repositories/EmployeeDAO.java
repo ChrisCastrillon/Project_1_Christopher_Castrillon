@@ -7,17 +7,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.revature.models.Employee;
 import com.revature.models.Role;
 import com.revature.utils.ConnectionUtil;
 
 public class EmployeeDAO implements IEmployeeDAO {
-
+	private static Logger log = Logger.getLogger(EmployeeDAO.class);
 	@Override
 	public List<Employee> findAll() {
 		List<Employee> allEmployees = new ArrayList<>();
 
 		// get a connection to the database
+		log.info("Trying to get a connect to database");
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			Statement stmt = conn.createStatement();
 			String sql = "SELECT * FROM project1.ers_users";
@@ -39,11 +42,12 @@ public class EmployeeDAO implements IEmployeeDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("WE FAILED TO RETRIEVE ALL USERS");
+			log.info("Failed to retrieve all epmployees");
+			System.out.println("WE FAILED TO RETRIEVE ALL Employees");
 			// if it returns null then you should try again.
 			return null;
 		}
-		
+		log.info("returning a list fo all employees");
 		return allEmployees;
 	}
 
@@ -59,10 +63,12 @@ public class EmployeeDAO implements IEmployeeDAO {
 			while(rs.next()) {
 				credentials[1] = rs.getString("ers_password");
 			}
-			System.out.println("credentials" + credentials[0] + ' ' + credentials[1]);
+			System.out.println("credentials " + credentials[0] + ' ' + credentials[1]);
+			log.info("returning a string array of user credentials");
 			return credentials;
 		}catch(SQLException e) {
 			System.out.println("WE FAILED TO RETRIEVE USER");
+			log.info("Fail to retrive the user credetials from the database ");
 			//if it returns null then you should try again.
 			return null;
 		}

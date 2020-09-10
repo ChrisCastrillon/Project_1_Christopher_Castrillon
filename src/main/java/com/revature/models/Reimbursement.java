@@ -34,7 +34,11 @@ public class Reimbursement {
 		this.statusId = statusId;
 		this.type = type;
 	}
-
+	public Reimbursement(int authorId, String username, String lastname, String email, byte[] receipt) {
+		this.submitTimeStamp = new Timestamp(System.currentTimeMillis());
+		this.resolveTimeStamp = null;
+		
+	}
 	public int getReimbId() {
 		return reimbId;
 	}
