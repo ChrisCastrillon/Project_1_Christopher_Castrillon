@@ -26,6 +26,7 @@ public class LoginServlet extends HttpServlet {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
 		System.out.println("username is: " + username + " " + username.length());
 		System.out.println("password is: " + password);
 //		request.getRequestDispatcher("/static/Submissions.html").forward(request, response);
