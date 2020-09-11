@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementFormHelper;
 import com.revature.repositories.IReimbursementDAO;
 import com.revature.repositories.ReimbursementDAO;
 import com.revature.services.ReimbursementService;
@@ -51,14 +52,17 @@ public class ReimbursementController {
 				//extract the information from the request:
 				//obtain the body:
 				String body = RequestUtil.readBody(request);
+				System.out.println(body);
 				
-				Reimbursement r = om.readValue(body, Reimbursement.class);
-			
+				ReimbursementFormHelper rfh = om.readValue(body, ReimbursementFormHelper.class);
+				System.out.println(rfh.toString());
+				Reimbursement r = reimbursementService.reimbursementFormToReimbursement(rfh);
+				
 				//Jackson Databind object mappper uses reflection to verify that the variable 
 				//names match the keys of the JSON and the types of the inputs match the types on the class
 				r = reimbursementService.submitReimbursement(r);
-				//this return ths reimbursement as a JSON
-				ResponseUtil.writeJSON(response, r);
+//				//this return ths reimbursement as a JSON
+//				ResponseUtil.writeJSON(response, r);
 				return;
 			}
 		

@@ -51,11 +51,14 @@ public class LoginServlet extends HttpServlet {
 			//for both the employee and the FM
 			writer.println(om.writeValueAsString(username));
 			System.out.println("should change page now");
+			response.setContentType("application/json");
+			return;
 //			request.getRequestDispatcher("/static/Submissions.html").forward(request, response);
 		}
 		else {
 			//if the user fails to log in
 			response.setStatus(401);
+			return;
 		}
 	}
 

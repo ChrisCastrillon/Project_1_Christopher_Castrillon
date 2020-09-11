@@ -41,7 +41,7 @@
 									type="password" class="form-control" name="password"
 									id="password" placeholder="Password">
 							</div>
-							<button type="submit" class="button" onClick="sendLogin()">Login</button>
+							<button type="submit" class="button" id="login">Login</button>
 						</form>
 					</div>
 				</div>
@@ -49,6 +49,9 @@
 		</div>
 	</div>
 	<script>
+		let button = document.getElementById("login");
+		button.addEventListener("click", sendLogin);
+		
 		async function sendLogin() {
 
 			let usernameInput = document.getElementById("username");
@@ -56,6 +59,7 @@
 
 			//send a request to the server to log int
 			try {
+				console.log("attempting to send a request");
 				let response = await fetch("http://localhost:8080/Project_1_Christopher_Castrillon/login?"
 						+ "username="
 						+ usernameInput.value

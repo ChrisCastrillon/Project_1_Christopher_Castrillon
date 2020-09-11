@@ -45,15 +45,18 @@
                                     <input type="email" class="form-control" id="email" placeholder="E-mail">
 
                                     <label class="sr-only" for="description">Description</label>
-                                    <input type="email" class="form-control" id="description" placeholder="description">
+                                    <input type="text" class="form-control" id="description" placeholder="Description">
                                     
+                                    <label class="sr-only" for="amount">Amount</label>
+                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
     								<!-- <label for="uploadReceipt">Upload</label>
     								<input type="file" class="form-control-file" id="receipt"> -->
-    								<button type="submit" class="btn btn-default" id="submitForm">Submit</button>
+                                    <br>
+                                    <button type="submit" class="btn btn-default" id="submitForm">Submit</button>
 									
 									<button type="submit" class="btn btn-default" id="logout" >Logout</button>
                                 </div>
-                                
+                               
                             </form> 
                         </div>
                     </div>
@@ -86,6 +89,8 @@
 				let lastNameInput = document.getElementById("lastName").value;
                 let eidInput = document.getElementById("userID").value;
                 let emailInput = document.getElementById("email").value;
+                let descriptionInput = document.getElementById("description").value;
+                let amountInput = document.getElementById("amount").value;
                 // let receiptInput = document.getElementById("receipt").value;
 
                 let formData = new FormData();
@@ -94,7 +99,10 @@
                 formData.append("lastName", lastNameInput);
                 formData.append("eid", eidInput);
                 formData.append("email", emailInput);
+                formData.append("description", descriptionInput);
+                formData.append("amount", amountInput);
                 // formData.append("receipt",receiptInput);
+                console.log(formData);
                 
 	
                 let xhr = new XMLHttpRequest();

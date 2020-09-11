@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<title>Administrator Portal</title>
+	</head>
+	<body>
+		<div class="jumbotron text-center" style="background-color: #ffce2b; border-bottom: 5px solid #f2f2f2;" >
+            <h1 style="color: white; font-size: 45px">Submited Reimbursements</h1>
+        </div>
+        <div class="container">
+	        <table class="table" id="Reimbursements">
+	  			<thead class="thead text-white" style="background-color: #1d2d75;">
+				    <tr>  
+				      <th scope="col">First Name</th>
+				      <th scope="col">Last Name</th>
+				      <th scope="col">EID#</th>
+				      <th scope="col">E-mail</th>
+				      <th scope="col">Receipt</th>
+				      <th scope="col">Status</th>
+				    </tr>
+	  			</thead>
+	 			 <tbody>
+				    <tr>
+				      <td>EmployeeFN</td>
+				      <td>EmployeeLN</td>
+				      <td>000000</td>
+				      <td>Employee1@ers.com</td>
+				      <td>Receipt</td>
+				      <td>
+				      	<label for="status">Status</label>
+				      	<select name="status" id="status">
+				      		<option value="pending">pending</option>
+				      		<option value="approved">aproved</option>
+				      		<option value="denied">denied</option>
+				      	</select>
+				      </td>
+				    </tr>
+	  			</tbody>
+			</table>
+		</div>
+		<script>
+			let tableRef = document.getElementById("Reimbursements").getElementByTagName('tbody');
+
+			let newRow = tableRef.insertRow(tableRef.rows.length)
+
+			let newFirstNameCell = newRow.insertCell(0);
+			  let newLastNameCell = newRow.insertCell(1);
+			  let newEIDCell = newRow.insertCell(2);
+			  let newEmailCell = newRow.insertCell(3);
+			  let newReceiptCell = newRow.insertCell(4);
+			  let newStatusCell = newRow.insertCell(5);
+
+			  		  // Append a text node to the cell
+			  let newFN  = document.createTextNode("Christopher");
+			  let newLN = document.createTextNode("Castrillon");
+			  let newEID = document.createTextNode(111111);
+			  let newEmail = document.createTextNode("ccastrillon@revature.com")
+			  let newRCell =document.createTextNode('image');
+			  let statusSelector = document.getElementById('status');
+			  let newStatusSelecor = statusSelector.cloneNode(true);
+			  newStatusCell.appendChild(newStatusSelecor);
+
+			  newFirstNameCell.appendChild(newFN);
+			  newLastNameCell.appendChild(newLN);
+			  newEIDCell.appendChild(newEID);
+			  newEmailCell.appendChild(newEmail);
+			  newReceiptCell.appendChild(newRCell);
+			  newStatusCell.appendChild(newStatusSelecor);
+
+
+		</script>
+	</body>
+</html>

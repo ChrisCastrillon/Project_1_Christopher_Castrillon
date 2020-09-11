@@ -3,14 +3,17 @@ package com.revature.main;
 import java.util.List;
 
 import com.revature.models.Employee;
+import com.revature.models.ReimbursementFormHelper;
 import com.revature.repositories.EmployeeDAO;
 import com.revature.repositories.IEmployeeDAO;
 import com.revature.services.EmployeeService;
+import com.revature.services.ReimbursementService;
 
 public class Driver {
 
 	public static void main(String[] args) {
-		findAllEmployees();
+		testRFH();
+//		findAllEmployees();
 		//		IEmployeeDAO employeeDAO = new EmployeeDAO();
 //		EmployeeService es = new EmployeeService();
 ////		List<Employee> employeeList = employeeDAO.findAll();
@@ -35,6 +38,13 @@ public class Driver {
 		for(Employee e : allEmps) {
 			System.out.println(e.toString());
 		}
+		Employee emp = eDAO.findById(2);
+		System.out.println("calling the findByUserID " + emp.toString());
+	}
+	public static void testRFH() {
+		ReimbursementFormHelper rfh = new ReimbursementFormHelper("1","Christopher","Castrillon","1","chriscastrillon@ers.com","Travel","10");
+		ReimbursementService rs = new ReimbursementService();
+		rs.reimbursementFormToReimbursement(rfh);
 	}
 
 }

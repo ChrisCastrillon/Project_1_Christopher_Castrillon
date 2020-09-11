@@ -9,11 +9,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.revature.models.Reimbursement;
 import com.revature.utils.ConnectionUtil;
 
 public class ReimbursementDAO implements IReimbursementDAO {
 	//this will be used to populate the reimusements list
+	private static Logger log = Logger.getLogger(ReimbursementDAO.class);
 	@Override
 	public List<Reimbursement> findAll() {
 		List<Reimbursement> allReimbursements = new ArrayList<>();
@@ -112,21 +115,22 @@ public class ReimbursementDAO implements IReimbursementDAO {
 		int count = 0;
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			String sql = "INSERT INTO project1.ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)" +
-		" VALUES (?,?,?,?,?,?,?,?,?,?)";
+		" VALUES (DEFAULT,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, reimbursement.getReimbId());
-			stmt.setDouble(2, reimbursement.getReimbAmount());
-			stmt.setTimestamp(3,reimbursement.getSubmitTimeStamp());
-			stmt.setTimestamp(4, reimbursement.getResolveTimeStamp());
-			stmt.setString(5, reimbursement.getDescription());
-			stmt.setBytes(6, reimbursement.getReceipt());
-			stmt.setInt(7, reimbursement.getAuthor());
-			stmt.setInt(8, reimbursement.getResolver());
-			stmt.setInt(9, reimbursement.getStatusId());
-			stmt.setInt(10, reimbursement.getType());
+			
+			stmt.setDouble(1, reimbursement.getReimbAmount());
+			stmt.setTimestamp(2,reimbursement.getSubmitTimeStamp());
+			stmt.setTimestamp(3, reimbursement.getResolveTimeStamp());
+			stmt.setString(4, reimbursement.getDescription());
+			stmt.setBytes(5, reimbursement.getReceipt());
+			stmt.setInt(6, reimbursement.getAuthor());
+			stmt.setInt(7, reimbursement.getResolver());
+			stmt.setInt(8, reimbursement.getStatusId());
+			stmt.setInt(9, reimbursement.getType());
 			count = stmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
+			log.info("failed to insert the reimbursement");
 			System.out.println("FAILED TO INSERT THE REIMBURSEMENT");
 		}
 		return reimbursement;

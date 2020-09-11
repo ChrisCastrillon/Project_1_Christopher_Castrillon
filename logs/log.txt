@@ -1,0 +1,18 @@
+2020-09-10 22:14:55 INFO  EmployeeDAO:23 - Trying to get a connect to database
+2020-09-10 22:14:57 INFO  EmployeeDAO:50 - returning a list fo all employees
+2020-09-10 22:14:57 INFO  EmployeeDAO:97 - Fail to retrive the user credetials from the database 
+2020-09-10 22:19:27 INFO  EmployeeDAO:23 - Trying to get a connect to database
+2020-09-10 22:19:29 INFO  EmployeeDAO:50 - returning a list fo all employees
+2020-09-10 22:19:29 INFO  EmployeeDAO:100 - Fail to retrive the user credetials from the database 
+2020-09-10 22:21:26 INFO  EmployeeDAO:23 - Trying to get a connect to database
+2020-09-10 22:21:28 INFO  EmployeeDAO:50 - returning a list fo all employees
+2020-09-10 22:21:28 INFO  EmployeeDAO:95 - returning the user of id Employee [id=1, username=ccastrillon, password=password, firstName=Christopher, lastName=Castrillon, role=Role [id=1, name=finance manager], email=chriscastrillon@ers.com]
+2020-09-10 22:28:48 INFO  EmployeeDAO:23 - Trying to get a connect to database
+2020-09-10 22:28:50 INFO  EmployeeDAO:50 - returning a list fo all employees
+2020-09-10 22:28:50 INFO  EmployeeDAO:95 - returning the user of id Employee [id=1, username=ccastrillon, password=password, firstName=Christopher, lastName=Castrillon, role=Role [id=1, name=finance manager], email=chriscastrillon@ers.com]
+2020-09-10 22:28:58 INFO  EmployeeDAO:23 - Trying to get a connect to database
+2020-09-10 22:28:59 INFO  EmployeeDAO:50 - returning a list fo all employees
+2020-09-10 22:29:00 INFO  EmployeeDAO:95 - returning the user of id Employee [id=2, username=eemployee, password=password, firstName=Employeefn, lastName=Employeeln, role=Role [id=2, name=employee], email=eemployee@ers.com]
+2020-09-10 22:41:53 INFO  EmployeeDAO:23 - Trying to get a connect to database
+2020-09-10 22:41:54 INFO  EmployeeDAO:50 - returning a list fo all employees
+2020-09-10 22:41:54 INFO  EmployeeDAO:95 - returning the user of id Employee [id=2, username=eemployee, password=password, firstName=Employeefn, lastName=Employeeln, role=Role [id=2, name=employee], email=eemployee@ers.com]
