@@ -8,7 +8,15 @@
 	<body>
 		<div class="jumbotron text-center" style="background-color: #ffce2b; border-bottom: 5px solid #f2f2f2;" >
             <h1 style="color: white; font-size: 45px">Submited Reimbursements</h1>
-        </div>
+		</div>
+		<div class="container">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+				<div class="input-group-append">
+				  <button class="btn btn-outline-secondary" type="button">Search</button>
+				</div>
+			  </div>
+		</div>
         <div class="container">
 	        <table class="table" id="Reimbursements">
 	  			<thead class="thead text-white" style="background-color: #1d2d75;">
@@ -42,32 +50,25 @@
 			<button type="submit" class="btn btn-default" id="logout" >Logout</button>
 		</div>
 		<script>
-			let tableRef = document.getElementById("Reimbursements").getElementByTagName('tbody');
 
-			let newRow = tableRef.insertRow(tableRef.rows.length)
+			async function populateTable() {
 
-			let newFirstNameCell = newRow.insertCell(0);
-			  let newLastNameCell = newRow.insertCell(1);
-			  let newEIDCell = newRow.insertCell(2);
-			  let newEmailCell = newRow.insertCell(3);
-			  let newReceiptCell = newRow.insertCell(4);
-			  let newStatusCell = newRow.insertCell(5);
+				//send a get request to get a list of all users
 
-			  		  // Append a text node to the cell
-			  let newFN  = document.createTextNode("Christopher");
-			  let newLN = document.createTextNode("Castrillon");
-			  let newEID = document.createTextNode(111111);
-			  let newEmail = document.createTextNode("ccastrillon@revature.com")
-			  let newRCell = document.createTextNode('image');
-			  let statusSelector = document.getElementById('status');
-			  let newStatusSelecor = statusSelector.cloneNode(true);
-			  newStatusCell.appendChild(newStatusSelecor);
-			  newFirstNameCell.appendChild(newFN);
-			  newLastNameCell.appendChild(newLN);
-			  newEIDCell.appendChild(newEID);
-			  newEmailCell.appendChild(newEmail);
-			  newReceiptCell.appendChild(newRCell);
-			  newStatusCell.appendChild(newStatusSelecor);
+				try{
+					console.log("attemping to send get request");
+					let response = await fetch("http://localhost:8080/Project_1_Christopher_Castrillon/rest/reimbursements");
+
+					let reimbList = await response.json();
+					
+					console.log("data : " + JSON.stringify(reimbList));
+				
+				}catch(error) {
+					console.log("error is " + error);
+					alert("Failed to populate list!");
+				} 
+			}
+			populateTable();
 		</script>
 	</body>
 </html>
