@@ -28,12 +28,18 @@ public class ReimbursementService {
 		String description = rfh.getDescription();
 		Employee emp = employeeDAO.findById(eid);
 		Reimbursement r = new Reimbursement(0, amount, new Timestamp(System.currentTimeMillis()), null, description, null, eid, 0, 1, subType);
+		r = submitReimbursement(r);
+//		r = returnUpdatedReimbursement(r);
 		return r;
 	}
 	public Reimbursement submitReimbursement(Reimbursement reimb) {
 		Reimbursement newReimb = reimbursementDAO.insert(reimb);
 		System.out.println("The new reimbursement is: " + newReimb.toString());
 		return newReimb;
+	}
+	public Reimbursement returnUpdatedReimbursement(Reimbursement r) {
+		r = reimbursementDAO.findByEID(r.getAuthor());
+		return r;
 	}
 	public Reimbursement updateReimbursement(Reimbursement reimb) {
 		Reimbursement newReimb = reimbursementDAO.update(reimb);
