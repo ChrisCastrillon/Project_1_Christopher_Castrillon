@@ -23,8 +23,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 		log.info("Trying to get a connect to database");
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			Statement stmt = conn.createStatement();
+//			conn.setAutoCommit(false);
 			String sql = "SELECT * FROM project1.ers_users";
 			ResultSet rs = stmt.executeQuery(sql);
+//			conn.commit();
 			// iterate through the set of users
 			while (rs.next()) {
 				int id = rs.getInt("ers_user_id"); // this gets the string from the column name
@@ -52,26 +54,32 @@ public class EmployeeDAO implements IEmployeeDAO {
 	}
 
 	@Override
-	public String[] findByUsername(String username) {
-		String[] credentials = new String[2];
-		credentials[0] = username;
+	public Employee findByUsername(String username) {
+		Employee emp = new Employee();
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT ers_password FROM project1.ers_users WHERE ers_username = " + "\'"+ username + "\'";
+			String sql = "SELECT * FROM project1.ers_users WHERE ers_username = " + "\'"+ username + "\'";
 			ResultSet rs = stmt.executeQuery(sql);
 			//iterate through the set of users
 			while(rs.next()) {
-				credentials[1] = rs.getString("ers_password");
+				int userId = rs.getInt("ers_user_id");
+				String password = rs.getString("ers_password");
+				String firstName = rs.getString("user_first_name");
+				String lastName = rs.getString("user_last_name");
+				String userEmail = rs.getString("user_email");
+				int userRoleId = rs.getInt("user_role_id");
+				emp = new Employee(userId, username, password, firstName, lastName,new Role(userRoleId),userEmail);
 			}
-			System.out.println("credentials " + credentials[0] + ' ' + credentials[1]);
-			log.info("returning a string array of user credentials");
-			return credentials;
+			
+			log.info("returning the employee");
+			
 		}catch(SQLException e) {
 			System.out.println("WE FAILED TO RETRIEVE USER");
 			log.info("Fail to retrive the user credetials from the database ");
 			//if it returns null then you should try again.
 			return null;
 		}
+		return emp;
 		
 	}
 
@@ -103,6 +111,36 @@ public class EmployeeDAO implements IEmployeeDAO {
 		}
 		return emp;
 		
+	}
+
+	@Override
+	public Employee findOneEmployeeByUsername(String username) {
+		Employee emp = new Employee();
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM project1.ers_users WHERE ers_username = " + "\'"+ username + "\'";
+			ResultSet rs = stmt.executeQuery(sql);
+			//iterate through the set of users
+			while(rs.next()) {
+				int eid = rs.getInt("ers_user_id");
+				String password = rs.getString("ers_password");
+				String firstName = rs.getString("user_first_name");
+				String lastName = rs.getString("user_last_name");
+				String email = rs.getString("user_email");
+				int roleId = rs.getInt("user_role_id");
+				Role role = new Role(roleId);
+				emp = new Employee(eid, username, password, firstName, lastName, role, email);
+				log.info("returning the user " +  emp.toString());
+
+			}		
+		}catch(SQLException e) {
+			System.out.println("WE FAILED TO RETRIEVE USER");
+			log.info("Fail to retrive the user credetials from the database ");
+			//if it returns null then you should try again.
+			return null;
+		}
+		return emp;
+	
 	}
 
 }

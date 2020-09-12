@@ -1,6 +1,8 @@
 package com.revature.services;
+import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementFormHelper;
@@ -8,16 +10,16 @@ import com.revature.repositories.EmployeeDAO;
 import com.revature.repositories.IEmployeeDAO;
 import com.revature.repositories.IReimbursementDAO;
 import com.revature.repositories.ReimbursementDAO;
-import java.sql.Timestamp;
 
 
 public class ReimbursementService {
 	private IReimbursementDAO reimbursementDAO = new ReimbursementDAO();
+	private ObjectMapper om = new ObjectMapper();
 	private IEmployeeDAO employeeDAO = new EmployeeDAO();
 
 	public List<Reimbursement> findAllRembursements() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Reimbursement> allReimbursements = reimbursementDAO.findAll();
+		return allReimbursements;
 	}
 	public Reimbursement reimbursementFormToReimbursement(ReimbursementFormHelper rfh) {
 		int subType = Integer.valueOf(rfh.getSubType());
@@ -29,15 +31,12 @@ public class ReimbursementService {
 		return r;
 	}
 	public Reimbursement submitReimbursement(Reimbursement reimb) {
-		//why not equal to zero?
-		if(reimb.getReimbId() != 0) {
-			/*
-			 * Throw a custom exception since new employees
-			 * have to have a zero id.
-			 */
-		}
 		Reimbursement newReimb = reimbursementDAO.insert(reimb);
-		System.out.println(newReimb.toString());
+		System.out.println("The new reimbursement is: " + newReimb.toString());
+		return newReimb;
+	}
+	public Reimbursement updateReimbursement(Reimbursement reimb) {
+		Reimbursement newReimb = reimbursementDAO.update(reimb);
 		return newReimb;
 	}
 }

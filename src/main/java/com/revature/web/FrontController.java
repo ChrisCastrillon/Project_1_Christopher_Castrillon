@@ -92,8 +92,34 @@ public class FrontController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		final String URI = request.getRequestURI().replace("/Project_1_Christopher_Castrillon/rest", "");
+		System.out.println(URI);
+		//you have to remove the first slash
+		if(URI.charAt(0) != '/') {
+			/*
+			 * If there is not / in /Submissions eg: then send back a bad request error
+			 * the URL is not structured correctly. If it is, then replace the first slash so it's not needed
+			 */
+			response.setStatus(400);
+			return;
+		}
+		final String resource = URI.replaceFirst("/", "").split("/")[0];
+		String[] portions = URI.replaceFirst("/","").split("/");
+		//this could change as you develop further bc maybe you can support more complex URI patterns in the future.
+		if(portions.length >= 3) {
+			response.setStatus(400);
+			return;
+		}
+		switch(resource) {
+		case("reimbursements"):
+			System.out.println("YOU CALLED FOR THE REIMBURSEMENTS RESOURCE");
+			reimbursementController.process(request, response, portions);
+			return;
+		default:
+			response.setStatus(400);
+			return;
+			
+		}
 	}
 
 	@Override

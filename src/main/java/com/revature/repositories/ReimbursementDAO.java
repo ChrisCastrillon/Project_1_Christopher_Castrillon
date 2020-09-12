@@ -78,6 +78,7 @@ public class ReimbursementDAO implements IReimbursementDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			log.info("Fail to retrieve all reimburesements for employee " + id);
 			System.out.println("WE FAILED TO RETRIEVE ALL REIMBURSEMENTS");
 			// if it returns null then you should try again.
 			return null;
@@ -105,8 +106,21 @@ public class ReimbursementDAO implements IReimbursementDAO {
 
 	@Override
 	public Reimbursement update(Reimbursement reimbursement) {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection conn = ConnectionUtil.getConnection()) {		
+			String sql = "UPDATE project1.ers_reimbursement SET reimb_resolved = ?, reimb_resolver = ?, reimb_status_id = ? WHERE reimb_id = ?";
+			
+			PreparedStatement stmt = conn.prepareStatement(sql);	
+			stmt.setTimestamp(1, reimbursement.getResolveTimeStamp());
+			stmt.setInt(2, reimbursement.getResolver());
+			stmt.setInt(3, reimbursement.getStatusId());
+			stmt.setInt(4, reimbursement.getReimbId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.info("failed to update the reimbursment");
+			System.out.println("WE FAILED TO UPDATE THE REIMBURSEMENT");
+		}
+		return reimbursement;
 	}
 
 	@Override

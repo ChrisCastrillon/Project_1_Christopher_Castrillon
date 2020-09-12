@@ -47,22 +47,17 @@ public class ReimbursementController {
 				return;
 			}
 			if(method.equals("POST")) {
-				//this will be used to create a new reimbursment and add it to the database:
 				System.out.println(method);
-				//extract the information from the request:
-				//obtain the body:
 				String body = RequestUtil.readBody(request);
-				System.out.println(body);
-				
+				System.out.println("the body of the request is: " + body);
 				ReimbursementFormHelper rfh = om.readValue(body, ReimbursementFormHelper.class);
-				System.out.println(rfh.toString());
+				System.out.println("The form that is submitted it: " + rfh.toString());
 				Reimbursement r = reimbursementService.reimbursementFormToReimbursement(rfh);
 				
 				//Jackson Databind object mappper uses reflection to verify that the variable 
 				//names match the keys of the JSON and the types of the inputs match the types on the class
 				r = reimbursementService.submitReimbursement(r);
-//				//this return ths reimbursement as a JSON
-//				ResponseUtil.writeJSON(response, r);
+				ResponseUtil.writeJSON(response, r);
 				return;
 			}
 		

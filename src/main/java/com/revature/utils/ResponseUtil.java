@@ -22,8 +22,6 @@ public class ResponseUtil {
 		writer.println(om.writeValueAsString(body));
 		response.setStatus(200);
 		response.setContentType("application/json");
-		
-		
 	}
 
 }

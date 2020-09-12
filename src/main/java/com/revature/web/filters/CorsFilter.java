@@ -43,7 +43,7 @@ public class CorsFilter implements Filter {
 		/**
 		 * We're going to set multiple different headers:
 		 */
-		res.setHeader("Access-Control-Allow-Origin", "*");//allow all origins
+		res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");//allow all origins
 		//Allow Specific Http verbs
 		res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 		//Allow specific HTTP Headers

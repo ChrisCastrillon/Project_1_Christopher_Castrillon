@@ -23,7 +23,7 @@
     <description></description>
     <display-name>LogoutServlet</display-name>
     <servlet-name>LogoutServlet</servlet-name>
-    <servlet-class>com.revature.web.LoginServlet</servlet-class>
+    <servlet-class>com.revature.web.LogoutServlet</servlet-class>
   </servlet>
   <servlet>
     <description></description>
@@ -36,14 +36,13 @@
     <url-pattern>/Submissions</url-pattern>
   </servlet-mapping>
   <filter>
-  	<filter-name>Cors</filter-name>
+  	<filter-name>CorsFilter</filter-name>
   	<filter-class>com.revature.web.filters.CorsFilter</filter-class>
   </filter>
   <filter-mapping>
-  	<filter-name>Cors</filter-name>
-  	<!--  with the wild card, all requests will go through the cors filter, yo can also leave this blank -->
+  	<filter-name>CorsFilter</filter-name>s
   	<url-pattern>/*</url-pattern>
-  </filter-mapping>
+  </filter-mapping>-->
   <error-page>
   	<error-code>404</error-code>
   	<location>/static/404.html</location>

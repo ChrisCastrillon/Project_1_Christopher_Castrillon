@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-center align-items-center">
                         <div class="div-to-align">
-                            <form class="form-vertical" role="form">
+                            <form class="form-vertical" role="form" onsubmit="return false;">
                                 <div class="radio">
                                     <p>Enter the Reimbursement type:</p>
                                     <label>
@@ -49,11 +49,10 @@
                                     
                                     <label class="sr-only" for="amount">Amount</label>
                                     <input type="text" class="form-control" id="amount" placeholder="Amount">
-    								<!-- <label for="uploadReceipt">Upload</label>
-    								<input type="file" class="form-control-file" id="receipt"> -->
+    								<label for="uploadReceipt">Upload</label>
+    								<input type="file" class="form-control-file" id="receipt">
                                     <br>
                                     <button type="submit" class="btn btn-default" id="submitForm">Submit</button>
-									
 									<button type="submit" class="btn btn-default" id="logout" >Logout</button>
                                 </div>
                                
@@ -71,8 +70,10 @@
         <script>
             let button = document.getElementById("submitForm");
             button.addEventListener("click", submit);
+            let logoutButton = document.getElementById("logout");
+            logoutButton.addEventListener("click", logout);
             
-            function submit() {
+           async function submit() {
                 console.log("in function");
                 
                 let subType;
@@ -92,45 +93,48 @@
                 let descriptionInput = document.getElementById("description").value;
                 let amountInput = document.getElementById("amount").value;
                 // let receiptInput = document.getElementById("receipt").value;
-
-                let formData = new FormData();
-                formData.append("subType", subType)
-                formData.append("firstName", firstNameInput);
-                formData.append("lastName", lastNameInput);
-                formData.append("eid", eidInput);
-                formData.append("email", emailInput);
-                formData.append("description", descriptionInput);
-                formData.append("amount", amountInput);
-                // formData.append("receipt",receiptInput);
+                let formData = JSON.stringify(
+                    {
+                        "subType":subType,
+                        "firstName":firstNameInput,
+                        "lastName":lastNameInput,
+                        "eid":eidInput,
+                        "email":emailInput,
+                        "description":descriptionInput,
+                        "amount":amountInput
+                    }
+                )
                 console.log(formData);
+                try {
+                    let response = await fetch("http://localhost:8080/Project_1_Christopher_Castrillon/rest/reimbursements", {
+                        body: formData,
+                        method: 'POST',
+                        headers: { "Content-Type": "application/json" },
+                        credentials: 'include'
+                    });
+                    let reimbursementData = await response.json();
+                    console.log("data : " + JSON.stringify(reimbursementData));
+                    insertIntoTable();
+                }catch(error) {
+                    console.log(error);
+                    alert("Failed to send form");
+                }
                 
 	
-                let xhr = new XMLHttpRequest();
-                    //this will not execute until you return a function
-                xhr.onReadyState = function() {
-                    if(this.readyState == 4) {
-                        let data = JSON.parse(xhr.responseText);
-                        console.log(data);
-                    }
-                }
-                //you are opening a post request
-                xhr.open("POST","http://localhost:8080/Project_1_Christopher_Castrillon/rest/reimbursements");
-                xhr.send(JSON.stringify(Object.fromEntries(formData)));
-             
             }
-            
-    
-            // function logout() {
-        	// 	console.log("The third function");
-        	// 	window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
-        	// }
+            function insertIntoTable() {
+                
+            }
+            function logout() {
+        		window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
+        	}
           
-            // let currentUser = sessionStorage.getItem("currentUser");
+            let currentUser = sessionStorage.getItem("currentUser");
             // if (!currentUser) {
-            //     // logout();
+            //     logout();
             // }
-            // let welcome = document.getElementById("welcome");
-            // welcome.innerHTML += " " + currentUser;
+            let welcome = document.getElementById("welcome");
+            welcome.innerHTML += " " + currentUser;
 
         </script>
     </body>
