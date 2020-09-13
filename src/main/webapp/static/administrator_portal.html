@@ -1,74 +1,188 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<title>Administrator Portal</title>
-	</head>
-	<body>
-		<div class="jumbotron text-center" style="background-color: #ffce2b; border-bottom: 5px solid #f2f2f2;" >
-            <h1 style="color: white; font-size: 45px">Submited Reimbursements</h1>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<title>Administrator Portal</title>
+</head>
+
+<body>
+	<div class="jumbotron text-center" style="background-color: #ffce2b; border-bottom: 5px solid #f2f2f2;">
+		<h1 style="color: white; font-size: 45px">Submited Reimbursements</h1>
+	</div>
+	<div class="container">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" id= "searchText" placeholder="Search" aria-label="Search"
+				aria-describedby="basic-addon2">
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" type="button" id="searchSubmit">Search</button>
+			</div>
 		</div>
-		<div class="container">
-			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-				<div class="input-group-append">
-				  <button class="btn btn-outline-secondary" type="button">Search</button>
-				</div>
-			  </div>
-		</div>
-        <div class="container">
-	        <table class="table" id="Reimbursements">
-	  			<thead class="thead text-white" style="background-color: #1d2d75;">
-				    <tr>  
-				      <th scope="col">First Name</th>
-				      <th scope="col">Last Name</th>
-				      <th scope="col">EID#</th>
-				      <th scope="col">E-mail</th>
-				      <th scope="col">Receipt</th>
-				      <th scope="col">Status</th>
-				    </tr>
-	  			</thead>
-	 			 <tbody>
-				    <tr>
-				      <td>EmployeeFN</td>
-				      <td>EmployeeLN</td>
-				      <td>000000</td>
-				      <td>Employee1@ers.com</td>
-				      <td>Receipt</td>
-				      <td>
-				      	<label for="status">Status</label>
-				      	<select name="status" id="status">
-				      		<option value="pending">pending</option>
-				      		<option value="approved">aproved</option>
-				      		<option value="denied">denied</option>
-				      	</select>
-				      </td>
-				    </tr>
-	  			</tbody>
+	</div>
+	<div class="container">
+		<div class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-center align-items-center">
+			<table class="table table-bordered" id="Reimbursements">
+				<thead class="thead text-white" style="background-color: #1d2d75;">
+					<tr>
+						<th scope="col">Employee_ID</th>
+						<th scope="col">Reimbursement_ID</th>
+						<th scope="col">Submitted</th>
+						<th scope="col">Type</th>
+						<th scope="col">Reimbursement_Amount</th>
+						<th scope="col">Description</th>
+						<th scope="col">Receipt</th>
+						<th scope="col">Status</th>
+						<th scope="col">Resolved</th>
+						<th scope="col">Resolver_ID</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
 			</table>
-			<button type="submit" class="btn btn-default" id="logout" >Logout</button>
 		</div>
-		<script>
+	</div>
 
-			async function populateTable() {
+	<button type="submit" class="btn btn-default" id="logout">Logout</button>
 
-				//send a get request to get a list of all users
+	<script>
+		let searchButton = document.getElementById("searchSubmit");
+		searchButton.addEventListener("click", searchThroughList);
+		populateTable();
+		async function populateTable() {
 
-				try{
-					console.log("attemping to send get request");
-					let response = await fetch("http://localhost:8080/Project_1_Christopher_Castrillon/rest/reimbursements");
+			//send a get request to get a list of all users
+			
+			try {
+				console.log("attemping to send get request");
+				let response = await fetch("http://localhost:8080/Project_1_Christopher_Castrillon/rest/reimbursements");
 
-					let reimbList = await response.json();
-					
-					console.log("data : " + JSON.stringify(reimbList));
-				
-				}catch(error) {
-					console.log("error is " + error);
-					alert("Failed to populate list!");
-				} 
+				let reimbList = await response.json();
+				iterateReimbs(reimbList);
+
+				console.log("data : " + JSON.stringify(reimbList));
+			} catch (error) {
+				console.log("error is " + error);
+				alert("Failed to populate list!");
 			}
-			populateTable();
-		</script>
-	</body>
+			
+			
+		}
+		
+		function iterateReimbs(reimbList) {
+			let jsonData = reimbList;
+			let firstItem = JSON.stringify(jsonData[0]);
+			console.log("printing the list: " +  JSON.parse(firstItem).reimbId);
+			
+			for(let i = 0; i < jsonData.length; i++) {
+				let item = JSON.stringify(jsonData[i]);
+				item = JSON.parse(item);
+				console.log(item.reimbId + " " + item.reimbAmount + " " + item.submitTimeStamp +
+					" " + item.description + " " + item.receipt + " " + item.author + 
+					" " + item.resolver + " " + item.statusId + " " + item.type);
+				insertIntoTable(item);
+			}
+		}
+		    function insertIntoTable(item) {
+            console.log("The data passed to the form: " + JSON.stringify(item))
+            let tagForStatusCell = document.createElement("td");
+            
+            let tableRef = document.getElementById("Reimbursements").getElementsByTagName('tbody')[0];
+            let newRow = tableRef.insertRow(tableRef.rows.length);
+           
+		    let reimbType;
+			console.log(typeof item.type)
+			switch(item.type) {
+				case 1:
+					reimbType = "travel";
+					break;
+				case 2:
+					reimbType = "lodging";
+					break;
+				case 3:
+					reimbType = "food";
+					break;
+				case 4:
+					reimbType = "other";
+					break
+			}
+
+            // Insert a cell in the row at index 0
+
+            let newEIDCell = newRow.insertCell(0);
+            let newReimbIDCell = newRow.insertCell(1);
+            let newSubmittedCell = newRow.insertCell(2);
+            let newTypeCell = newRow.insertCell(3);
+            let newAmountCell = newRow.insertCell(4);
+            let newDescriptionCell = newRow.insertCell(5);
+            let newReceiptCell = newRow.insertCell(6);
+            let newStatusCell = newRow.insertCell(7);
+            let newResolvedCell = newRow.insertCell(8);
+            let newResolverIDCell = newRow.insertCell(9); 
+
+            // Append a text node to the cell
+            let newEID = document.createTextNode(item.author);
+            let newReimbID = document.createTextNode(item.reimbId);
+            let newSubmit = document.createTextNode(new Date(item.submitTimeStamp).toISOString());
+            let newType = document.createTextNode(reimbType);
+            let newAmount = document.createTextNode(item.reimbAmount);
+            let newDescription = document.createTextNode(item.description);
+            let newReceipt = document.createTextNode("receipt");
+            let newStatus = document.createTextNode(item.statusId);
+            let newResolved = document.createTextNode(item.resolveTimeStamp);
+            let newResolverID = document.createTextNode(item.resolver);
+            // let statusSelector = document.getElementById('status');
+            
+            // newStatusCell.appendChild(newStatusSelecor);
+
+            newEIDCell.appendChild(newEID);
+            newReimbIDCell.appendChild(newReimbID);
+            newSubmittedCell.appendChild(newSubmit);
+            newTypeCell.appendChild(newType);
+            newAmountCell.appendChild(newAmount);
+            newDescriptionCell.appendChild(newDescription);
+            newReceiptCell.appendChild(newReceipt);
+            newStatusCell.appendChild(newStatus);
+            newResolvedCell.appendChild(newResolved);
+            newResolverIDCell.appendChild(newResolverID);
+            
+        }
+		function searchThroughList() {
+			let serachText = document.getElementById("searchText");
+			let filter = searchText.value.toUpperCase();
+			let table = document.getElementById("Reimbursements");
+			let tr = table.getElementsByTagName("tr");
+			console.log("The type of the filter is : " + typeof filter);
+			if (parseInt(filter) !== NaN) {
+				for(i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName("td")[0];
+					if (td) {
+						txValue = td.textContent || td.innerText;
+						if (txValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display ="";
+						}else {
+							tr[i].style.display ="none";
+						}
+					}
+				}
+			}
+			
+			for(i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[3];
+				if (td) {
+					txValue = td.textContent || td.innerText;
+					if (txValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display ="";
+					}else {
+						tr[i].style.display ="none";
+					}
+				}
+			}
+			
+			alert(searchText.value);
+		}
+	</script>
+</body>
+
 </html>
