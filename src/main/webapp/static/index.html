@@ -79,6 +79,7 @@
 				//console.log(response)
 				console.log("data : " + JSON.stringify(employee));
 				sessionStorage.setItem("currentUser", employee.username);
+				console.log("current user is : " + sessionStorage.currentUser);
 				
 				if(employee.role.name === "employee") {
 					window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/Submissions");

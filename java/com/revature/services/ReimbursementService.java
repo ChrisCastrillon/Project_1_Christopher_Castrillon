@@ -45,4 +45,10 @@ public class ReimbursementService {
 		Reimbursement newReimb = reimbursementDAO.update(reimb);
 		return newReimb;
 	}
+	public List<Reimbursement> findAllReimbursementsByUsername(String username) {
+		Employee e = employeeDAO.findByUsername(username);
+		List<Reimbursement> r = reimbursementDAO.findAllByEID(e.getId());
+		
+		return r;
+	}
 }

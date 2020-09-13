@@ -94,6 +94,7 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
         </script>
     <script>
+       getEmployeeReimbursements();
         let button = document.getElementById("submitForm");
         button.addEventListener("click", submit);
         let logoutButton = document.getElementById("logout");
@@ -148,7 +149,36 @@
             }
             
         }
-        
+        async function getEmployeeReimbursements(){
+            let username = sessionStorage.currentUser;
+            console.log(username);
+            try {
+				console.log("attemping to send get request");
+				let response = await fetch("http://localhost:8080/Project_1_Christopher_Castrillon/rest/reimbursements?username=" + username);
+				let reimbList = await response.json();
+				console.log("all of the reimburesement data : " + JSON.stringify(reimbList));
+                iterateReimbs(reimbList);
+                console.log("sending the full reimbursement data to the iterateReimbs function");
+			} catch (error) {
+				console.log("error is when getting the entire list:  " + error);
+				alert("Failed to get list!");
+			}
+
+        }
+        function iterateReimbs(reimbData) {
+            let jsonData = reimbData;
+			let firstItem = JSON.stringify(jsonData[0]);
+			console.log("printing the list: " +  JSON.parse(firstItem).reimbId);
+			
+			for(let i = 0; i < jsonData.length; i++) {
+				let item = JSON.stringify(jsonData[i]);
+				item = JSON.parse(item);
+				console.log(item.reimbId + " " + item.reimbAmount + " " + item.submitTimeStamp +
+					" " + item.description + " " + item.receipt + " " + item.author + 
+					" " + item.resolver + " " + item.statusId + " " + item.type);
+				insertIntoTable(item);
+			}
+        }
         function insertIntoTable(reimbursementData) {
             console.log("The data passed to the form: " + JSON.stringify(reimbursementData))
             let tagForStatusCell = document.createElement("td");
@@ -156,9 +186,35 @@
             let tableRef = document.getElementById("Reimbursements").getElementsByTagName('tbody')[0];
             let newRow = tableRef.insertRow(tableRef.rows.length);
            
-
+            console.log("the dates are : " + reimbursementData.submitTimeStamp);
             // Insert a cell in the row at index 0
-
+            let reimbType;
+            switch(reimbursementData.type) {
+				case 1:
+					reimbType = "travel";
+					break;
+				case 2:
+					reimbType = "lodging";
+					break;
+				case 3:
+					reimbType = "food";
+					break;
+				case 4:
+					reimbType = "other";
+					break
+			}
+            let statusType;
+            switch(reimbursementData.statusId) {
+                case 1:
+                    statusType = "pending";
+                    break;
+                case 2:
+                    statusType = "approved";
+                    break;
+                case 3:
+                    statusType = "denied";
+                    break;
+            }
             let newEIDCell = newRow.insertCell(0);
             let newReimbIDCell = newRow.insertCell(1);
             let newSubmittedCell = newRow.insertCell(2);
@@ -174,11 +230,11 @@
             let newEID = document.createTextNode(reimbursementData.author);
             let newReimbID = document.createTextNode(reimbursementData.reimbId);
             let newSubmit = document.createTextNode(new Date(reimbursementData.submitTimeStamp).toISOString());
-            let newType = document.createTextNode(reimbursementData.type);
+            let newType = document.createTextNode(reimbType);
             let newAmount = document.createTextNode(reimbursementData.reimbAmount);
             let newDescription = document.createTextNode(reimbursementData.description);
             let newReceipt = document.createTextNode("receipt");
-            let newStatus = document.createTextNode(reimbursementData.statusId);
+            let newStatus = document.createTextNode(statusType);
             let newResolved = document.createTextNode(reimbursementData.resolveTimeStamp);
             let newResolverID = document.createTextNode(reimbursementData.resolver);
             // let statusSelector = document.getElementById('status');

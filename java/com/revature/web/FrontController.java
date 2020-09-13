@@ -71,7 +71,9 @@ public class FrontController extends HttpServlet {
 		
 		switch(resource) {
 			case("employees"):
+				
 				System.out.println("YOU CALLED FOR THE EMPLOYEE RESOURCE");
+			
 				//rather than processing the request
 				//rather than putting the logic here, delegate this to another class/helper.
 				//you can have an employee controller that responds to this
@@ -79,6 +81,7 @@ public class FrontController extends HttpServlet {
 				
 				break;
 			case("reimbursements"):
+				System.out.println("did that fix the issue?");
 				System.out.println("YOU CALLED FOR THE REIMBURSEMENTS RESOURCE");
 				reimbursementController.process(request, response, portions);
 				break;

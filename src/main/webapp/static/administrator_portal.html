@@ -107,6 +107,18 @@
 					reimbType = "other";
 					break
 			}
+			let statusType;
+            switch(item.statusId) {
+                case 1:
+                    statusType = "pending";
+                    break;
+                case 2:
+                    statusType = "approved";
+                    break;
+                case 3:
+                    statusType = "denied";
+                    break;
+            }
 
             // Insert a cell in the row at index 0
 
@@ -129,7 +141,7 @@
             let newAmount = document.createTextNode(item.reimbAmount);
             let newDescription = document.createTextNode(item.description);
             let newReceipt = document.createTextNode("receipt");
-            let newStatus = document.createTextNode(item.statusId);
+            let newStatus = document.createTextNode(statusType);
             let newResolved = document.createTextNode(item.resolveTimeStamp);
             let newResolverID = document.createTextNode(item.resolver);
             // let statusSelector = document.getElementById('status');
