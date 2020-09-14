@@ -62,7 +62,7 @@
 				let reimbList = await response.json();
 				iterateReimbs(reimbList);
 
-				// console.log("data : " + JSON.stringify(reimbList));
+				console.log("data : " + JSON.stringify(reimbList));
 			} catch (error) {
 				console.log("error is " + error);
 				alert("Failed to populate list!");
@@ -140,7 +140,10 @@
 			let label = document.createElement("label");
 			label.htmlFor = "statuses";
 			// document.getElementById("selector").appendChild(label).appendChild(statusCell);
-			
+			let newStatusCell;
+			let newStatus;
+			let newResolvedCell;
+			let newResolved;	
 			let newEIDCell = newRow.insertCell(0);
             let newReimbIDCell = newRow.insertCell(1);
             let newSubmittedCell = newRow.insertCell(2);
@@ -148,10 +151,37 @@
             let newAmountCell = newRow.insertCell(4);
             let newDescriptionCell = newRow.insertCell(5);
             let newReceiptCell = newRow.insertCell(6);
-            let newStatusCell = newRow.insertCell(7).appendChild(statusCell);
-            let newResolvedCell = newRow.insertCell(8);
-            let newResolverIDCell = newRow.insertCell(9); 
-			
+            switch(item.statusId){
+				case 1:
+				newStatusCell = newRow.insertCell(7).appendChild(statusCell);
+				newStatus = document.createTextNode(statusType);
+				newStatusCell.appendChild(newStatus);
+				break;
+				case 2:
+				newStatusCell = newRow.insertCell(7);
+				newStatus = document.createTextNode("approved");
+				newStatusCell.appendChild(newStatus);
+				break;
+				case 3:
+				newStatusCell = newRow.insertCell(7);
+				newStatus = document.createTextNode("denied");
+				newStatusCell.appendChild(newStatus);
+				break;
+			}
+			switch(item.resolveTimeStamp){
+				case null:
+				newResolvedCell = newRow.insertCell(8);
+				newResolved = document.createTextNode("NOT RESOLVED");
+				newResolvedCell.appendChild(newResolved);
+
+				break;
+				default:
+				newResolvedCell = newRow.insertCell(8);
+				newResolved = document.createTextNode(new Date(item.resolveTimeStamp).toISOString());
+				newResolvedCell.appendChild(newResolved);
+			}
+           
+            let newResolverIDCell = newRow.insertCell(9); 		
             // Append a text node to the cell
             let newEID = document.createTextNode(item.author);
             let newReimbID = document.createTextNode(item.reimbId);
@@ -160,8 +190,8 @@
             let newAmount = document.createTextNode("$" + item.reimbAmount);
             let newDescription = document.createTextNode(item.description);
             let newReceipt = document.createTextNode("receipt");
-            let newStatus = document.createTextNode(statusType);
-            let newResolved = document.createTextNode(item.resolveTimeStamp);
+            
+            
             let newResolverID = document.createTextNode(item.resolver);
             // let statusSelector = document.getElementById('status');
             
@@ -174,8 +204,8 @@
             newAmountCell.appendChild(newAmount);
             newDescriptionCell.appendChild(newDescription);
             newReceiptCell.appendChild(newReceipt);
-            newStatusCell.appendChild(newStatus);
-            newResolvedCell.appendChild(newResolved);
+            
+            
             newResolverIDCell.appendChild(newResolverID);
 			
 
@@ -192,29 +222,34 @@
 		
 			
 			let selectStatuses = document.querySelectorAll("select");
-			
+			let statusNumber;
+			let theReimbursementId;
 			for(const s of selectStatuses) {
 				s.addEventListener("change", function(event) {
 					console.log("the value of the status is: " + this.value);
-					let newStatus;
+					// let newStatus;
+					
 					switch(this.value) {
 						case "pending":
-							newStatus = 1;
+							statusNumber = 1;
 							break;
 						case "approved":
-							newStatus = 2;
+							statusNumber = 2;
 							break;
 						case "denied":
-							newStatus = 3;
+							statusNumber = 3;
 							break;
 					}
-					let theReimbursementId = this.id;
-					update(theReimbursementId, newStatus);
-					event.stopPropagation;
+					theReimbursementId = this.id;
+					update(theReimbursementId, statusNumber);
 					
 				})
 			}
-			
+			// let theReimbursementId = this.id;
+			console.log("Is the reimbursementID null? " + theReimbursementId);
+			// if (theReimbursementId !== undefined) {
+			// 	update(theReimbursementId, statusNumber);
+			// }
 			
 			// for(let i = 0; i < selectStatus.length; i++) {
 			// 	selectStatus[i].addEventListener("change", function(event) {
@@ -281,7 +316,7 @@
                 
             } catch (error) {
                 console.log(error);
-                alert("Failed to send form");
+                // alert("Failed to send form");
             }
 		}
 		

@@ -215,6 +215,8 @@
                     statusType = "denied";
                     break;
             }
+            let newResolvedCell;
+            let newResolved;
             let newEIDCell = newRow.insertCell(0);
             let newReimbIDCell = newRow.insertCell(1);
             let newSubmittedCell = newRow.insertCell(2);
@@ -223,7 +225,18 @@
             let newDescriptionCell = newRow.insertCell(5);
             let newReceiptCell = newRow.insertCell(6);
             let newStatusCell = newRow.insertCell(7);
-            let newResolvedCell = newRow.insertCell(8);
+            switch(reimbursementData.resolveTimeStamp){
+                case null:
+                newResolvedCell = newRow.insertCell(8);
+                newResolved = document.createTextNode("NOT RESOLVED");
+                newResolvedCell.appendChild(newResolved);
+                break;
+                default:
+                newResolvedCell = newRow.insertCell(8);
+                newResolved = document.createTextNode(new Date(reimbursementData.resolveTimeStamp).toISOString());
+                newResolvedCell.appendChild(newResolved);
+            }
+            // let newResolvedCell = newRow.insertCell(8);
             let newResolverIDCell = newRow.insertCell(9); 
 
             // Append a text node to the cell
@@ -235,7 +248,7 @@
             let newDescription = document.createTextNode(reimbursementData.description);
             let newReceipt = document.createTextNode("receipt");
             let newStatus = document.createTextNode(statusType);
-            let newResolved = document.createTextNode(reimbursementData.resolveTimeStamp);
+            // let newResolved = document.createTextNode(new Date(reimbursementData.resolveTimeStamp).toISOString());
             let newResolverID = document.createTextNode(reimbursementData.resolver);
             // let statusSelector = document.getElementById('status');
             
@@ -249,7 +262,7 @@
             newDescriptionCell.appendChild(newDescription);
             newReceiptCell.appendChild(newReceipt);
             newStatusCell.appendChild(newStatus);
-            newResolvedCell.appendChild(newResolved);
+            // newResolvedCell.appendChild(newResolved);
             newResolverIDCell.appendChild(newResolverID);
             
         }
