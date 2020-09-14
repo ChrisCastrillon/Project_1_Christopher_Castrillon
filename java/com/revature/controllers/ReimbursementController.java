@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementFormHelper;
+import com.revature.models.ReimbursementUpdateHelper;
 import com.revature.repositories.EmployeeDAO;
 import com.revature.repositories.IEmployeeDAO;
 import com.revature.repositories.IReimbursementDAO;
@@ -78,7 +78,16 @@ public class ReimbursementController {
 				r = reimbursementService.submitReimbursement(r);
 				ResponseUtil.writeJSON(response, r);
 				return;
-			}	
+			}
+			if(method.equals("PUT")) {
+				System.out.println(method);
+				String body = RequestUtil.readBody(request);
+				System.out.println("the body of the request is: " + body);
+				ReimbursementUpdateHelper ruh = om.readValue(body, ReimbursementUpdateHelper.class);
+				Reimbursement r = reimbursementService.reimburesmentUpdateFormToReimbursement(ruh);
+				ResponseUtil.writeJSON(response, r);
+				return;
+			}
 		}
 		if(portions.length == 2) {
 			String method = request.getMethod();

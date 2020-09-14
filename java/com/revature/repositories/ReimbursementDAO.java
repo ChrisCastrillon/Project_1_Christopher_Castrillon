@@ -88,8 +88,33 @@ public class ReimbursementDAO implements IReimbursementDAO {
 
 	@Override
 	public Reimbursement findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Reimbursement r = new Reimbursement();
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM project1.ers_reimbursement WHERE reimb_id = " + id;
+			ResultSet rs = stmt.executeQuery(sql);
+			// iterate through the set of users
+			while (rs.next()) {
+				int reimb_id = rs.getInt("reimb_id");
+				double reimb_amount = rs.getDouble("reimb_amount");
+				Timestamp time_submitted = rs.getTimestamp("reimb_submitted");
+				Timestamp time_resolved = rs.getTimestamp("reimb_resolved");
+				String reimb_description = rs.getString("reimb_description");
+				byte[] reimb_receipt = rs.getBytes("reimb_receipt");
+				int reimb_author = rs.getInt("reimb_author");
+				int reimb_resolver = rs.getInt("reimb_resolver");
+				int reimb_status = rs.getInt("reimb_status_id");
+				int reimb_type = rs.getInt("reimb_type_id");
+				r = new Reimbursement(reimb_id, reimb_amount, time_submitted, time_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status, reimb_type);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.info("Fail to retrieve all reimburesements for employee " + id);
+			System.out.println("WE FAILED TO RETRIEVE ALL REIMBURSEMENTS");
+			// if it returns null then you should try again.
+			return null;
+		}
+		return r;
 	}
 
 	@Override
@@ -109,7 +134,6 @@ public class ReimbursementDAO implements IReimbursementDAO {
 	public Reimbursement update(Reimbursement reimbursement) {
 		try (Connection conn = ConnectionUtil.getConnection()) {		
 			String sql = "UPDATE project1.ers_reimbursement SET reimb_resolved = ?, reimb_resolver = ?, reimb_status_id = ? WHERE reimb_id = ?";
-			
 			PreparedStatement stmt = conn.prepareStatement(sql);	
 			stmt.setTimestamp(1, reimbursement.getResolveTimeStamp());
 			stmt.setInt(2, reimbursement.getResolver());

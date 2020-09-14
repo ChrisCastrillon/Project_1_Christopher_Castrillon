@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.models.Employee;
 import com.revature.models.ReimbursementFormHelper;
+import com.revature.models.ReimbursementUpdateHelper;
 import com.revature.repositories.EmployeeDAO;
 import com.revature.repositories.IEmployeeDAO;
 import com.revature.services.EmployeeService;
@@ -12,7 +13,8 @@ import com.revature.services.ReimbursementService;
 public class Driver {
 
 	public static void main(String[] args) {
-		testRFH();
+		testRUH();
+		//		testRFH();
 //		findAllEmployees();
 		//		IEmployeeDAO employeeDAO = new EmployeeDAO();
 //		EmployeeService es = new EmployeeService();
@@ -45,6 +47,11 @@ public class Driver {
 		ReimbursementFormHelper rfh = new ReimbursementFormHelper("1","Christopher","Castrillon","1","chriscastrillon@ers.com","Travel","10");
 		ReimbursementService rs = new ReimbursementService();
 		rs.reimbursementFormToReimbursement(rfh);
+	}
+	public static void testRUH() {
+		ReimbursementUpdateHelper ruh = new ReimbursementUpdateHelper("1", "1", "2");
+		ReimbursementService rs = new ReimbursementService();
+		rs.reimburesmentUpdateFormToReimbursement(ruh);
 	}
 
 }

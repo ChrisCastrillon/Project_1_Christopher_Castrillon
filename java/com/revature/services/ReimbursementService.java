@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementFormHelper;
+import com.revature.models.ReimbursementUpdateHelper;
 import com.revature.repositories.EmployeeDAO;
 import com.revature.repositories.IEmployeeDAO;
 import com.revature.repositories.IReimbursementDAO;
@@ -31,6 +32,16 @@ public class ReimbursementService {
 		r = submitReimbursement(r);
 //		r = returnUpdatedReimbursement(r);
 		return r;
+	}
+	public Reimbursement reimburesmentUpdateFormToReimbursement(ReimbursementUpdateHelper ruh) {
+		int reimbId = Integer.valueOf(ruh.getReimbId());
+		int resolver = employeeDAO.findByUsername(ruh.getResolver()).getId();
+		int statusId = Integer.valueOf(ruh.getStatusId());
+		Reimbursement r = reimbursementDAO.findById(reimbId); //returns the current reimbursement object
+		r = new Reimbursement(reimbId, r.getReimbAmount(), r.getSubmitTimeStamp(), new Timestamp(System.currentTimeMillis()), r.getDescription(), r.getReceipt(),r.getAuthor(),resolver, statusId, r.getType()); //make a new reimbursement object and update it in the database
+		r = reimbursementDAO.update(r);
+		return r;
+		
 	}
 	public Reimbursement submitReimbursement(Reimbursement reimb) {
 		Reimbursement newReimb = reimbursementDAO.insert(reimb);
