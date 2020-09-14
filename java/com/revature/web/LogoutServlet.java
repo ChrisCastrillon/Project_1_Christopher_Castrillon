@@ -12,32 +12,20 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class LogoutServlet
  */
-@WebServlet(urlPatterns= {"/logout"})
+
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LogoutServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// if there was no session dont create one
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		System.out.println("Did this execute?");
-//		request.getRequestDispatcher("static/index.html").forward(request, response);
+//		HttpSession session = request.getSession(false);
+//		if (session != null) {
+//			session.invalidate();
+//		}
+//	
+		request.getRequestDispatcher("/static/index.html").forward(request, response);
 	}
 
 	/**

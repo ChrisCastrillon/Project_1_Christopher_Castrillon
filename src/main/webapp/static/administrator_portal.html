@@ -50,6 +50,9 @@
 	<script>
 		let searchButton = document.getElementById("searchSubmit");
 		searchButton.addEventListener("click", searchThroughList);
+		let logoutButton = document.getElementById("logout");
+        logoutButton.addEventListener("click", logout);
+		
 		populateTable();
 		async function populateTable() {
 
@@ -319,6 +322,14 @@
                 // alert("Failed to send form");
             }
 		}
+		function logout() {
+            window.location.replace("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
+        }
+
+        let currentUser = sessionStorage.getItem("currentUser");
+        if (!currentUser) {
+            logout();
+        }
 		
 		
 	</script>

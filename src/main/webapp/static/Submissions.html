@@ -62,6 +62,15 @@
                             <hr>
                             <br>
                             <div class="container">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id= "searchText" placeholder="Search" aria-label="Search"
+                                        aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button" id="searchSubmit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
                                 <div class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex justify-content-center align-items-center">
                                     <table class="table table-bordered" id="Reimbursements">
                                         <thead class="thead text-white" style="background-color: #1d2d75;">
@@ -83,7 +92,6 @@
                                     </table>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -94,14 +102,16 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
         </script>
     <script>
-       getEmployeeReimbursements();
+        getEmployeeReimbursements();
         let button = document.getElementById("submitForm");
         button.addEventListener("click", submit);
         let logoutButton = document.getElementById("logout");
         logoutButton.addEventListener("click", logout);
+        let searchButton = document.getElementById("searchSubmit");
+		searchButton.addEventListener("click", searchThroughList);
 
         async function submit() {
-            console.log("in function");
+            
 
             let subType;
             let radioElement = document.getElementsByName("submissionType");
@@ -111,7 +121,7 @@
                 }
             }
             console.log(subType);
-            alert(subType);
+    
 
             let firstNameInput = document.getElementById("firstName").value;
             let lastNameInput = document.getElementById("lastName").value;
@@ -244,7 +254,7 @@
             let newReimbID = document.createTextNode(reimbursementData.reimbId);
             let newSubmit = document.createTextNode(new Date(reimbursementData.submitTimeStamp).toISOString());
             let newType = document.createTextNode(reimbType);
-            let newAmount = document.createTextNode(reimbursementData.reimbAmount);
+            let newAmount = document.createTextNode("$"+reimbursementData.reimbAmount);
             let newDescription = document.createTextNode(reimbursementData.description);
             let newReceipt = document.createTextNode("receipt");
             let newStatus = document.createTextNode(statusType);
@@ -266,14 +276,32 @@
             newResolverIDCell.appendChild(newResolverID);
             
         }
+        function searchThroughList() {
+			let serachText = document.getElementById("searchText");
+			let filter = searchText.value.toUpperCase();
+			let table = document.getElementById("Reimbursements");
+			let tr = table.getElementsByTagName("tr");
+			console.log("The type of the filter is : " + typeof filter);
+			for(i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[7];
+				if (td) {
+					txValue = td.textContent || td.innerText;
+					if (txValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display ="";
+					}else {
+						tr[i].style.display ="none";
+					}
+				}
+			}
+		}
         function logout() {
-            window.location.assign("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
+            window.location.replace("http://localhost:8080/Project_1_Christopher_Castrillon/logout");
         }
 
         let currentUser = sessionStorage.getItem("currentUser");
-        // if (!currentUser) {
-        //     logout();
-        // }
+        if (!currentUser) {
+            logout();
+        }
         let welcome = document.getElementById("welcome");
         welcome.innerHTML += " " + currentUser;
 

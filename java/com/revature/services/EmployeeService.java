@@ -13,10 +13,15 @@ public class EmployeeService {
 	IEmployeeDAO employeeDAO = new EmployeeDAO();
 	private static Logger log = Logger.getLogger(EmployeeService.class);
 	
-	public Employee checkLogin(String username) {
+	public Employee checkLogin(String username, String password) {
 //		IEmployeeDAO eDAO = new EmployeeDAO();
 		 Employee e = employeeDAO.findByUsername(username);
-		 return e;
+		 if(username.equals(e.getUsername()) & password.equals(e.getPassword())) {
+			 return e;
+		 }
+		 return null;
+		 
+		 
 	}
 	public List<Employee> findAllEmployees() {
 		List<Employee> allEmployees = employeeDAO.findAll();

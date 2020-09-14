@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
 				.collect(Collectors.joining(System.lineSeparator()));
 		System.out.println(body);
 		LoginFormHelper lfh = om.readValue(body, LoginFormHelper.class);
-		Employee e = es.checkLogin(lfh.getUsername());
+		Employee e = es.checkLogin(lfh.getUsername(),lfh.getPassword());
 		if (e != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("currentUser", e);
