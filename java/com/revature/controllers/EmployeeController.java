@@ -57,7 +57,7 @@ public class EmployeeController {
 				String body = RequestUtil.readBody(request);
 				LoginFormHelper lfh = om.readValue(body, LoginFormHelper.class);
 				
-				if(employeeService.checkLogin(lfh.getUsername())!=null) {
+				if(employeeService.checkLogin(lfh.getUsername(),lfh.getPassword())!=null) {
 					Employee employee = new Employee();
 					response.setStatus(200);
 					employee = employeeDAO.findOneEmployeeByUsername(lfh.getUsername());
